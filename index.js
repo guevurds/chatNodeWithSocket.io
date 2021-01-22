@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 
 // app.use(express.static('public'))
 
-http.listen(3000, () => {
+http.listen(process.env.PORT || 3338, () => {
     console.log('ta aberto a porcaria do baguio na porta 3000');
     console.log(" "+ new Date);
 })
