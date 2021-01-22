@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> teste 2 uou </title>
+
+        <style>
+            #NumberOnline {
+                color: greenyellow;
+                font-size: 20pt;
+            }
+
+            .enviada {
+                color: blue;
+            }
+
+            .recebida{
+                color: black;
+            }
+
+            .somida {
+                display: none;
+            }
+
+        </style>
+    
+        <script src="/socket.io/socket.io.js"></script>
+        
+    </head>
+    <body>
+
+        <div id= 'interfaceChat'>
+            <div id='NumberOnline'>  </div>
+            <div id="chat"></div>
+            <form id="formulario">
+                <input type="text" id="campo" autocomplete="off">
+            </form>
+        </div>
+
+        <div id='InformarNick'> 
+            <form id="formDoNick">
+                <input type="text" id="campoDoNick" autocomplete="off">
+            </form>
+        </div>
+        
+
+        
+
+
+        <script type='module'> 
+            // declaração de variaveis
+
+            const interfaceChat = document.getElementById('interfaceChat');
+
+                const divNumberOnline = document.getElementById('NumberOnline');
+
+                const chat = document.getElementById('chat');
+
+                    const formulario = document.getElementById('formulario');
+                    const campo = document.getElementById('campo');
+            
+                const formDoNick = document.getElementById('formDoNick');
+                const campoDoNick = document.getElementById('campoDoNick');
+            
+
+            const socket = io();
+
+            const player = {
+                id: null,
+                name: null,
+            }
+
+            let conectados = []
+
+            //verificar e validar
+
+            function verificarNickname() {
+                const InformarNick = document.getElementById('InformarNick');
+                if(player.name != null) {
+                    interfaceChat.classList.remove('somida');
+                    InformarNick.style.display = 'none';
+                } else {
+                    interfaceChat.classList.add('somida');
+                    // InformarNick.classList.remove('somida');
+                    requestAnimationFrame(verificarNickname)
+                }
+                
+            } 
+            verificarNickname()
+
+            // logs inicias
+
+            socket.on ('connect', () => {
+                console.log('connected: ' + socket.id);
+                player.id = socket.id;
+            });
+
+            socket.on('qlogados', numeroConexoes => {
+                console.log(numeroConexoes.length);
+                conectados = numeroConexoes
+                console.log('atualiza logados');
+            })
+
+            // estetica
+            function updateThingsOfClient() {
+                divNumberOnline.innerHTML = 'Online: '+ conectados.length;
+
+                requestAnimationFrame(updateThingsOfClient)
+            }
+            updateThingsOfClient()
+
+            // mensagem enviado ao servidor
+
+
+                    addEventListener('submit', e => {
+                    e.preventDefault();
+                    console.log('oi1');
+                    if (player.name != null) {
+                            if (campo.value) {
+                                const mensagem = {
+                                id: player.id,
+                                name: player.name,
+                                val: campo.value
+                            }
+
+                            campo.value = null;
+
+                            socket.emit('newMessage', mensagem)
+                        }    
+
+                    }
+                        if (player.name == null) {
+                            player.name = campoDoNick.value;
+                            console.log('oi2')
+                        }
+                })
+                    
+
+            
+
+            // mensagem recebida do servidor
+            socket.on ('atualizaChat', msm => {
+                let element = document.createElement('p');
+                element.innerHTML = msm.name + ": " + msm.val;
+
+                if(msm.id == player.id) {
+                    element.classList.add('enviada');
+                } else {
+                    element.classList.add('recebida');
+                }
+
+                chat.append(element);
+            })
+
+            //receber o estado do chat 
+            socket.on ('estadoDoChat', mensagens => {
+                console.log('recebendo estado')
+                console.log(mensagens)
+                for(let msm of mensagens) {
+                
+                    let element = document.createElement('p');
+                    element.innerHTML = msm.name + ": " + msm.val;
+                    chat.append(element)
+                    
+                }
+            })
+
+
+        </script>
+    </body>
+</html>
