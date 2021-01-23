@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 })
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 http.listen(process.env.PORT || 3000, () => {
     console.log('ta aberto a porcaria do baguio na porta 3000');

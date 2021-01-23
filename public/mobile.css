@@ -1,0 +1,69 @@
+@media(max-width: 750px) {
+
+    #html {
+        width:98%;
+        box-sizing: border-box;
+    }
+
+    #interfaceChat {
+        width: 98vw;
+        box-sizing: border-box;
+        height: 98vh;
+        margin: 0px;
+    }
+
+    #chat {
+        box-sizing: border-box;
+        margin: 0px;
+        height: 89vh;
+    }
+
+    #campo {
+        font-size: 14pt;
+        width: 85vw;
+    }
+
+    #InformarNick {
+        width: 100vw;
+        height: 100vh;
+        box-sizing: border-box;
+        padding-left: 5vw;
+        padding-right: 5vw;
+        margin: 0px;
+    }
+
+    #titulo {
+        font-size: 20pt;
+    }
+
+    #campoDoNick{
+        font-size: 14pt;
+        width: 80vw;
+    }
+
+    .enviada {
+        font-size: 9pt;
+        margin-right: 5px;
+        margin-left: 40px;
+    }
+
+    .recebida {
+        font-size: 9pt;
+        margin-left: 5px;
+        margin-right: 40px;
+    }
+
+    #subName{
+        position: absolute;
+        display: inline-block;
+        right:15px;
+        bottom: 250px;
+        background-size: 32px 32px;
+    }
+
+    #subChat {
+        background-size: 18px 18px;
+        display: inline-block;
+    }
+
+}
