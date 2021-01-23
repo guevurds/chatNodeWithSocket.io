@@ -22,9 +22,9 @@ sockets.on ("connection", socket => {
     const playerId = socket.id;
     console.log("connected: " + playerId);
     numberConnections.push(playerId);
+    sockets.emit('estadoDoChat', historicoMensagem);
 
     atualizaClients();
-    estadoChat();
     console.log(numberConnections.length);
 
     socket.on ("disconnect", () => {
@@ -50,8 +50,4 @@ function updateChat(mensagem) {
     sockets.emit('atualizaChat', mensagem);
 }
 
-function estadoChat() {
-    console.log('enviando estado')
-    sockets.emit('estadoDoChat', historicoMensagem);
-}
 
