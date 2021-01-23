@@ -158,18 +158,22 @@
             })
 
             //receber o estado do chat 
-            socket.on ('estadoDoChat', mensagens => {
+            socket.on ('estadoDoChat', obj => {
                 console.log('recebendo estado')
-                console.log(mensagens)
-                for(let msm of mensagens) {
-                
-                    let element = document.createElement('div');
-                    element.classList.add('recebida');
-                    element.innerHTML ="<span>"+ msm.name + "</span><br> " + msm.val;
-                    chat.append(element)
-                    
-                    chat.scrollTop = chat.scrollHeight;
+                console.log(obj.mensagens)
+
+                if(obj.id == player.id) {
+                            for(let msm of obj.mensagens) {
+                        
+                        let element = document.createElement('div');
+                        element.classList.add('recebida');
+                        element.innerHTML ="<span>"+ msm.name + "</span><br> " + msm.val;
+                        chat.append(element)
+                        
+                        chat.scrollTop = chat.scrollHeight;
+                    }
                 }
+                
             })
 
 

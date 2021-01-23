@@ -22,7 +22,13 @@ sockets.on ("connection", socket => {
     const playerId = socket.id;
     console.log("connected: " + playerId);
     numberConnections.push(playerId);
-    sockets.emit('estadoDoChat', historicoMensagem);
+
+    const objEnterChat = {
+        mensagens: historicoMensagem,
+        id: playerId
+    }
+
+    sockets.emit('estadoDoChat', (objEnterChat) );
 
     atualizaClients();
     console.log(numberConnections.length);
