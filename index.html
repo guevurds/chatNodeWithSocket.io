@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> teste 2 uou </title>
+        <title> chatLeigo</title>
 
         <style>
             #NumberOnline {
@@ -10,11 +10,30 @@
             }
 
             .enviada {
-                color: blue;
+                color: white;
+                background-color: blue;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                border-radius: 14px;
+                padding: 6px 6px;
+                margin-right: 5px;
+                margin-left: 75px;
             }
 
             .recebida{
-                color: black;
+                color: white;
+                background-color: black;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                border-radius: 14px;
+                padding: 0px 6px;
+                margin-left: 5px;
+                margin-right: 75px;
+            }
+
+            span {
+                font-weight: bold;
+                font-size: 13pt;
             }
 
             .somida {
@@ -24,6 +43,7 @@
             #interfaceChat{
                 background-color:rgba(0,0,0, 0.6);
                 width: 500px;
+                height: 555px;
             }
 
             #chat {
@@ -41,6 +61,36 @@
                 box-sizing: border-box;
                 background-color:rgba(29, 26, 26, 0.1);
                 color: white;
+            }
+
+            #InformarNick {
+                width: 500px;
+                height: 555px;
+                background-color: black;
+                position: absolute;
+                box-sizing: border-box;
+                padding-left: 25px;
+                padding-right: 25px;
+                padding-top: 150px;
+            }
+
+            #campoDoNick {
+                position: absolute;
+                margin: 0px;
+                bottom: 250px;
+                width: 90%;
+                font-size: 20pt;
+                background-color: black;
+                color: white;
+                border: white solid 3px;
+                border-radius: 10px;
+                box-sizing: border-box;
+            }
+
+            #titulo {
+                color: white;
+                text-align: center;
+                font-size: 40pt;
             }
 
             /* scrollBar */
@@ -79,6 +129,7 @@
         </div>
 
         <div id='InformarNick'> 
+            <h1 id="titulo"> Digite Seu Nick: </h1>
             <form id="formDoNick">
                 <input type="text" id="campoDoNick" autocomplete="off">
             </form>
@@ -183,8 +234,12 @@
 
                     }
                         if (player.name == null) {
-                            player.name = campoDoNick.value;
-                            console.log('oi2')
+                            if (campoDoNick.value.length <= 24) {
+                                player.name = campoDoNick.value;
+                            } else {
+                                alert('seu nick tem ' + campoDoNick.value.length + 'caracteres\nO limite é 24')
+                            }
+                            
                         }
                 })
                     
@@ -193,11 +248,12 @@
 
             // mensagem recebida do servidor
             socket.on ('atualizaChat', msm => {
-                let element = document.createElement('p');
-                element.innerHTML = msm.name + ": " + msm.val;
+                let element = document.createElement('div');
+                element.innerHTML = "<span>" + msm.name + "</span><br> " + msm.val;
 
                 if(msm.id == player.id) {
                     element.classList.add('enviada');
+                    element.innerHTML = msm.val;
                 } else {
                     element.classList.add('recebida');
                 }
@@ -212,8 +268,9 @@
                 console.log(mensagens)
                 for(let msm of mensagens) {
                 
-                    let element = document.createElement('p');
-                    element.innerHTML = msm.name + ": " + msm.val;
+                    let element = document.createElement('div');
+                    element.classList.add('recebida');
+                    element.innerHTML ="<span>"+ msm.name + "</span><br> " + msm.val;
                     chat.append(element)
                     
                     chat.scrollTop = chat.scrollHeight;
